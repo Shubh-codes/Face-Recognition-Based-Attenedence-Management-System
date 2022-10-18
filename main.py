@@ -1,48 +1,24 @@
+import tkinter
 from tkinter import *
 from tkinter import ttk
+from tkinter.messagebox import askyesno
 from PIL import Image,ImageTk
 from student import Student
 import os
 from train import Train
 from face_recongizer import Face_Recognizer
-
+from attendence import Attendence
+import time
+from time import strftime
 
 class Face_Rocognition_System:
     def __init__(self,root):
         self.root = root
         self.root.geometry("2560x1440+0+0")
-        self.root.title("Face Recognizer")
+        self.root.title("Attendance Management Application")
 
-        # first img
-        '''img = Image.open('C:\\Users\\shubh\\Desktop\\Coding Projects\\Machine Learning Projects\\Face Recognition based attendence system\\collect images\img1.jpg')
-        img = img.resize((500,130),Image.ANTIALIAS)
-        self.photoimg = ImageTk.PhotoImage(img)
-
-        f_lable = Label(self.root,image = self.photoimg)
-        f_lable.place(x = 0 , y = 0,width = 500,height = 130)
-
-        # second img
-
-        img1 = Image.open('C:\\Users\\shubh\\Desktop\\Coding Projects\\Machine Learning Projects\\Face Recognition based attendence system\\collect images\img3.jpg')
-        img1 = img1.resize((500,130),Image.ANTIALIAS)
-        self.photoimg1 = ImageTk.PhotoImage(img1)
-
-        f_lable = Label(self.root,image = self.photoimg1)
-        f_lable.place(x = 500 , y = 0,width = 500,height = 130)
-
-        # third image
-
-        img2 = Image.open('C:\\Users\\shubh\\Desktop\\Coding Projects\\Machine Learning Projects\\Face Recognition based attendence system\\collect images\img2.jpeg')
-        img = img2.resize((500,130),Image.ANTIALIAS)
-        self.photoimg2 = ImageTk.PhotoImage(img2)
-
-        f_lable = Label(self.root,image = self.photoimg2)
-        f_lable.place(x = 1000  , y = 0,width = 700,height = 130)'''
-    
-
+ 
         #background image
-
-
         img3 = Image.open('C:\\Users\\shubh\\Desktop\\Coding Projects\\Machine Learning Projects\\Face Recognition based attendence system\\collect images\img4.jpg')
         img3 = img3.resize((2560,1440),Image.ANTIALIAS)
         self.photoimg3 = ImageTk.PhotoImage(img3)
@@ -51,8 +27,19 @@ class Face_Rocognition_System:
         bg_image.place(x = 0 , y = 0,width = 2560,height = 1440)
 
         #title
+
         title_lable = Label(bg_image,text="Attendance Management System",font=("times new roman",35,"bold"),bg = "red",fg = "white")
         title_lable.place(x = 0 , y = 0, width = 2560,height= 45)
+
+        def time():
+            string = strftime("%H:%M:%S %p")
+            lbl.config(text = string)
+            lbl.after(1000,time)
+        lbl = Label(title_lable,font = ("times new roman",30,"bold"),background = "red",foreground='white')
+        lbl.place(x=40,y=0,width=220,height=40)
+        time()
+
+
 
         student_details = self.student_details
         
@@ -96,10 +83,10 @@ class Face_Rocognition_System:
         img7 = Image.open('C:\\Users\\shubh\\Desktop\\Coding Projects\\Machine Learning Projects\\Face Recognition based attendence system\\collect images\\attendence.jpg')
         img7 = img7.resize((400,350),Image.ANTIALIAS)
         self.photoimg7= ImageTk.PhotoImage(img7)
-        b1 = Button(bg_image,image=self.photoimg7,cursor="hand2")
+        b1 = Button(bg_image,command=self.attendence_data, image=self.photoimg7,cursor="hand2")
         b1.place(x = 1800,y = 200,width=400,height=350)
 
-        b1_1 = Button(bg_image,text='4. Check Attendence',cursor="hand2",font=("times new roman",30,"bold"),bg = "dark blue",fg = "white")
+        b1_1 = Button(bg_image,text='4. Check Attendence',command=self.attendence_data,cursor="hand2",font=("times new roman",30,"bold"),bg = "dark blue",fg = "white")
         b1_1.place(x = 1800,y = 520,width=400,height=40)
 
 
@@ -108,20 +95,12 @@ class Face_Rocognition_System:
         img8 = img8.resize((400,350),Image.ANTIALIAS)
         self.photoimg8= ImageTk.PhotoImage(img8)
         b1 = Button(bg_image,command=self.open_images,  image=self.photoimg8,cursor="hand2")
-        b1.place(x = 600,y = 800,width=400,height=340)
+        b1.place(x = 800,y = 800,width=400,height=340)
 
-        b1_1 = Button(bg_image,command=self.open_images, text='View Photos',cursor="hand2",font=("times new roman",30,"bold"),bg = "dark blue",fg = "white")
-        b1_1.place(x = 600,y = 1135,width=400,height=40)
+        b1_1 = Button(bg_image,command=self.open_images, text='View Image Dataset',cursor="hand2",font=("times new roman",30,"bold"),bg = "dark blue",fg = "white")
+        b1_1.place(x = 800,y = 1135,width=400,height=40)
 
-        # contact me
-        img9 = Image.open('C:\\Users\\shubh\\Desktop\\Coding Projects\\Machine Learning Projects\\Face Recognition based attendence system\\collect images\\contact.jpg')
-        img9= img9.resize((400,350),Image.ANTIALIAS)
-        self.photoimg9= ImageTk.PhotoImage(img9)
-        b1 = Button(bg_image,image=self.photoimg9,cursor="hand2")
-        b1.place(x = 1100,y = 800,width=400,height=350)
 
-        b1_1 = Button(bg_image,text='Contact Me',cursor="hand2",font=("times new roman",30,"bold"),bg = "dark blue",fg = "white")
-        b1_1.place(x = 1100,y = 1145,width=400,height=40)
 
 
         #exit button
@@ -129,16 +108,30 @@ class Face_Rocognition_System:
         img10 = Image.open('C:\\Users\\shubh\\Desktop\\Coding Projects\\Machine Learning Projects\\Face Recognition based attendence system\\collect images\\exit.jpg')
         img10 = img10.resize((400,350),Image.ANTIALIAS)
         self.photoimg10= ImageTk.PhotoImage(img10)
-        b1 = Button(bg_image,image=self.photoimg10,cursor="hand2")
-        b1.place(x = 1600,y = 800,width=400,height=340)
+        b1 = Button(bg_image,image=self.photoimg10,cursor="hand2",command=self.iexit)
+        b1.place(x = 1300,y = 800,width=400,height=340)
 
-        b1_1 = Button(bg_image,text='Exit',cursor="hand2",font=("times new roman",30,"bold"),bg = "dark blue",fg = "white")
-        b1_1.place(x = 1600,y = 1135,width=400,height=40)
+        b1_1 = Button(bg_image,text='Exit',command=self.iexit,cursor="hand2",font=("times new roman",30,"bold"),bg = "dark blue",fg = "white")
+        b1_1.place(x = 1300,y = 1135,width=400,height=40)
+
+
+
     
 
     
 
         # ----------------------Functions ------------------------------------
+
+    def iexit(self):
+        self.iexit = askyesno("Are you sure","Do You Want to Exit this application?",parent= self.root)
+        if self.iexit>0:
+            self.root.destroy()
+        else:
+            return
+
+
+
+
         
     def student_details(self):
         self.new_window = Toplevel(self.root)
@@ -155,6 +148,11 @@ class Face_Rocognition_System:
     def Face(self):
         self.new_window = Toplevel(self.root)
         self.app = Face_Recognizer(self.new_window)
+
+    
+    def attendence_data(self):
+        self.new_window = Toplevel(self.root)
+        self.app = Attendence(self.new_window)
 
 
 
